@@ -1,3 +1,4 @@
+require("dotenv").config();
 const simpleOauthModule = require("simple-oauth2");
 const authMiddleWareInit = require("./auth.js");
 const callbackMiddleWareInit = require("./callback");

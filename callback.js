@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { json } = require("express");
 const generateScript = require("./login_script.js");
 
