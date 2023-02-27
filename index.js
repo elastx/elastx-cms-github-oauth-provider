@@ -1,4 +1,6 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
+
 const simpleOauthModule = require("simple-oauth2");
 const authMiddleWareInit = require("./auth.js");
 const callbackMiddleWareInit = require("./callback");
@@ -22,7 +24,7 @@ const oauth2 = new simpleOauthModule.AuthorizationCode(config);
 
 function indexMiddleWare(req, res) {
   res.send(`Hello<br>
-    <a href="/cms/auth" target="${loginAuthTarget}">
+    <a href="${process.env.BASE_PATH}/auth" target="${loginAuthTarget}">
       Log in with ${oauthProvider.toUpperCase()}
     </a>`);
 }

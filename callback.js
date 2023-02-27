@@ -1,4 +1,6 @@
-require("dotenv").config();
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
+
 const { json } = require("express");
 const generateScript = require("./login_script.js");
 
@@ -31,8 +33,16 @@ module.exports = (oauth2, oauthProvider) => {
         return { message: "error", content: JSON.stringify(error) };
       })
       .then((result) => {
-        // const script = generateScript(oauthProvider, result.message, result.content)
-        return res.send(JSON.stringify(result));
+        if (process.env.CALLBACK_ONLY_TOKEN === "true") {
+          return res.send(result.content.token);
+        } else {
+          const script = generateScript(
+            oauthProvider,
+            result.message,
+            result.content
+          );
+          return res.send(script);
+        }
       });
   }
   return callbackMiddleWare;
